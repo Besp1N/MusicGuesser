@@ -4,14 +4,12 @@ import numpy as np
 import pandas as pd
 import joblib
 from flask import Flask, request, jsonify
-from librosa.beat import beat_track
-from librosa.feature import chroma_cens, mfcc, spectral_centroid, zero_crossing_rate, spectral_contrast, \
-    spectral_bandwidth, spectral_flatness, spectral_rolloff
-from pydub import AudioSegment
-import tempfile
-import subprocess
+from librosa.feature import chroma_cens, mfcc, spectral_centroid, zero_crossing_rate, spectral_contrast, spectral_bandwidth, spectral_flatness, spectral_rolloff
+from flask_cors import CORS
 
 app = Flask(__name__)
+
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 UPLOAD_FOLDER = 'uploads/'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -121,8 +119,12 @@ def upload_mp3():
     if file.filename == '':
         return jsonify({"error": "No selected file"}), 400
 
+    # Zapisz plik do katalogu 'uploads'
+    file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+    file.save(file_path)
+
     if file and file.filename.endswith('.wav'):
-        predictions = analyze_mp3_file(file_path=file.filename)
+        predictions = analyze_mp3_file(file_path=file_path)
         return jsonify({"predictions": predictions}), 200
     else:
         return jsonify({"error": "Invalid file format"}), 400

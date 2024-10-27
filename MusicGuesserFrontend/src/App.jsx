@@ -1,14 +1,17 @@
 import Form from "./components/form.jsx";
 import Welcome from "./components/welcome.jsx";
 import Result from "./components/result.jsx";
+import {GenreProvider} from "./context/genreContext.jsx";
 
 const App = () => {
     return (
-        <div className={"main"}>
-            <Welcome></Welcome>
-            <Result></Result>
-            <Form></Form>
-        </div>
+        <GenreProvider>
+            <div className={"main"}>
+                <Welcome></Welcome>
+                <Result></Result>
+                <Form></Form>
+            </div>
+        </GenreProvider>
     )
 }
 
