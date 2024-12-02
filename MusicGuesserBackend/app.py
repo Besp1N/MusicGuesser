@@ -119,7 +119,6 @@ def upload_mp3():
     if file.filename == '':
         return jsonify({"error": "No selected file"}), 400
 
-    # Zapisz plik do katalogu 'uploads'
     file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
     file.save(file_path)
 

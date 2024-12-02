@@ -53,6 +53,6 @@ def train_model(df):
 
 
 if __name__ == '__main__':
-    df = pd.read_csv('src/data.csv')
+    df = pd.read_csv('src/data_updated.csv')
     model = train_model(df)
     joblib.dump(model, 'src/trained_model.pkl')
